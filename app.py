@@ -1,11 +1,21 @@
-# app.py
 from fastapi import FastAPI
 from pydantic import BaseModel
 from spam_model import predecir_mensaje
+from fastapi.middleware.cors import CORSMiddleware
 
+# Crear la aplicación FastAPI
 app = FastAPI(
     title="Servicio de detección de SPAM",
     version="1.0.0"
+)
+
+# Permite solicitudes desde tu frontend local
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5174"],  # Reemplaza con el dominio de tu frontend
+    allow_credentials=True,
+    allow_methods=["*"],  # Permite todos los métodos HTTP (GET, POST, PUT, DELETE, etc.)
+    allow_headers=["*"],  # Permite todos los encabezados
 )
 
 class MensajeEntrada(BaseModel):
